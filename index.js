@@ -7,6 +7,7 @@ const app = express();
 const users = require("./routes/users");
 const messages = require("./routes/messages");
 const auth = require("./routes/auth");
+const notes = require("./routes/notes");
 const location = require("./routes/location");
 const household = require("./routes/household");
 
@@ -19,6 +20,7 @@ app.use(express.static("public"));
 app.use(express.json());
 app.use(helmet());
 
+app.use("/api/my/notes", notes);
 app.use("/api/users", users);
 app.use("/api/messages", messages);
 app.use("/api/auth", auth);

@@ -6,6 +6,8 @@ const config = require("config");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
+// ADD HUOSEHOLD AUTH
+
 // GET SINGLE USER
 
 router.get("/me", auth, async (req, res) => {
@@ -36,8 +38,10 @@ router.post("/", async (req, res) => {
   user.password = await bcrypt.hash(user.password, salt);
   user = await user.save();
 
+  console.log(user);
+
   const token = user.generateAuthToken();
-  res.header("x-auth-token", token).send(user);
+  res.header("x-auth-token", token).send(token);
 });
 
 // CHANGE USER DETAILS

@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema({
     type: [mongoose.Schema.Types.ObjectId],
     ref: "Household",
   },
+  households_name: Array,
   longitude: String,
   latitude: String,
 });
@@ -33,6 +34,7 @@ userSchema.methods.generateAuthToken = function () {
       households: this.households,
       name: this.name,
       email: this.email,
+      households_name: this.households_name,
     },
     "jwtPrivateKey"
   ));
@@ -47,6 +49,7 @@ function validateUser(user) {
     password: Joi.string().max(255),
     DOBirth: Joi.string(),
     households: Joi.array(),
+    households_name: Joi.array(),
     longitude: Joi.number(),
     latitude: Joi.number(),
   });
