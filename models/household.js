@@ -11,9 +11,14 @@ const householdSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  notes: [String],
+  notes: {
+    note: [String],
+    user_id: [mongoose.Schema.Types.ObjectId],
+  },
   events: [String],
   expenses: [String],
+  longitude: String,
+  latitude: String,
 });
 
 const Household = mongoose.model("Household", householdSchema);
@@ -29,6 +34,7 @@ householdSchema.methods.generateAuthToken = function () {
       notes: this.notes,
       events: this.events,
       expenses: this.expenses,
+      location: this.location,
     },
     "jwtPrivateKey"
   ));
@@ -38,9 +44,11 @@ function validateHousehold(Household) {
   const schema = Joi.object({
     name: Joi.string(),
     users: Joi.string(),
-    notes: Joi.string(),
+    notes: Joi.array(),
     events: Joi.string(),
     expenses: Joi.string(),
+    longitude: Joi.string(),
+    latitude: Joi.string(),
   });
   return schema.validate(Household);
 }

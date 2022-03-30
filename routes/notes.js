@@ -19,14 +19,17 @@ router.put("/", auth, async (req, res) => {
     req.body.id,
     {
       $push: {
-        notes: req.body.note,
+        notes: {
+          note: req.body.note,
+          user_id: req.body.user_id,
+        },
       },
     },
     {
       new: true,
     }
   );
-  console.log(note.notes);
+  console.log(note);
   res.send(note.notes);
 });
 
@@ -37,7 +40,10 @@ router.delete("/", auth, async (req, res) => {
     req.body.id,
     {
       $pull: {
-        notes: req.body.notes,
+        notes: {
+          note: req.body.note,
+          user_id: req.body._id,
+        },
       },
     },
     {

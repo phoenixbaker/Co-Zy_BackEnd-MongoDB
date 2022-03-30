@@ -14,11 +14,13 @@ router.get("/", auth, async (req, res) => {
 
 // GET SINGLE HUOSEHOLD BY ID
 
-router.get("/:id", auth, async (req, res) => {
-  const household = await Household.findById(req.params.id);
+router.post("/my/", auth, async (req, res) => {
+  const household = await Household.findById(req.body.id);
+  console.log(household);
 
-  if (!household) return res.status(404).send("Weellll");
+  if (!household) return res.status(404);
 
+  console.log(household);
   res.send(household);
 });
 

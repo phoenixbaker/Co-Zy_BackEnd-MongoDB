@@ -35,6 +35,8 @@ userSchema.methods.generateAuthToken = function () {
       name: this.name,
       email: this.email,
       households_name: this.households_name,
+      longitude: this.longitude,
+      latitude: this.latitude,
     },
     "jwtPrivateKey"
   ));
@@ -50,8 +52,8 @@ function validateUser(user) {
     DOBirth: Joi.string(),
     households: Joi.array(),
     households_name: Joi.array(),
-    longitude: Joi.number(),
-    latitude: Joi.number(),
+    longitude: Joi.string(),
+    latitude: Joi.string(),
   });
   return schema.validate(user);
 }
