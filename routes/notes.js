@@ -14,23 +14,22 @@ router.post("/", auth, async (req, res) => {
 // UPDATE NOTES || ADD
 
 router.put("/", auth, async (req, res) => {
+  console.log("HEY" + req.body.id);
   // Make Error Auth
   const note = await Household.findByIdAndUpdate(
     req.body.id,
     {
       $push: {
-        notes: {
-          note: req.body.note,
-          user_id: req.body.user_id,
-        },
+        "notes.note": req.body.note,
+        "notes.user_id": req.body.user_id,
       },
     },
     {
       new: true,
     }
   );
-  console.log(note);
-  res.send(note.notes);
+  console.log(note.notes);
+  res.send(note);
 });
 
 // DELETE NOTES

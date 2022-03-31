@@ -44,7 +44,7 @@ function validateHousehold(Household) {
   const schema = Joi.object({
     name: Joi.string(),
     users: Joi.string(),
-    notes: Joi.array(),
+    notes: Joi.string(),
     events: Joi.string(),
     expenses: Joi.string(),
     longitude: Joi.string(),
