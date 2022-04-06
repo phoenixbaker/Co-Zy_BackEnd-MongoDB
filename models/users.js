@@ -25,6 +25,7 @@ const userSchema = new mongoose.Schema({
   households_name: Array,
   longitude: String,
   latitude: String,
+  img_id: mongoose.Schema.Types.ObjectId,
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -37,6 +38,7 @@ userSchema.methods.generateAuthToken = function () {
       households_name: this.households_name,
       longitude: this.longitude,
       latitude: this.latitude,
+      img_id: this.img_id,
     },
     "jwtPrivateKey"
   ));

@@ -1,10 +1,60 @@
-const { User, validate } = require("../models/users");
-const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const mongo = require("mongodb");
 const express = require("express");
-const config = require("config");
-const auth = require("../middleware/auth");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
+const Grid = require("gridfs-stream");
+const zlib = require("zlib");
+const fs = require("fs");
+
+const { User, validate } = require("../models/users");
+const auth = require("../middleware/auth");
+const { upload } = require("../middleware/upload");
+const conn = require("../database");
+const mongoose = require("mongoose");
+
+router.post("/upload", auth, upload.single("img"), async (req, res) => {
+  // Save img name in User
+  const file = mongoose.Types.ObjectId("624c1d06b65dd76e6f5d0691");
+  const img = await conn.db.collection("fs.chunks").findOne({ _id: file });
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      img: img._id,
+    },
+    {
+      new: true,
+    }
+  );
+
+  res.send(user);
+});
+
+router.get("/download/:id", auth, async (req, res) => {
+  console.log("Download Profile Picture Request");
+  const id = mongoose.Types.ObjectId(req.params.id);
+  const img = await conn.db.collection("fs.chunks").findOne({ _id: id });
+  console.log(img.data);
+  res.send(img.data);
+});
+
+// router.get("/download/:id", auth, (req, res) => {
+//   const gfs = new mongoose.mongo.GridFSBucket(conn.db);
+//   // Validation needed
+//   res.header("Content-Type", "arraybuffer");
+//   res.setHeader("Content-Type", "arraybuffer");
+//   gfs
+//     .openDownloadStreamByName(req.params.id)
+//     .pipe(res)
+//     .on("error", () => {
+//       console.log("Error:" + error);
+//     })
+//     .on("finish", () => {
+//       console.log("Done Downloading");
+//     });
+// });
 
 // ADD HUOSEHOLD AUTH
 
