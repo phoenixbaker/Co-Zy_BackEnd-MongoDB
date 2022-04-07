@@ -13,7 +13,7 @@ const householdSchema = new mongoose.Schema({
   },
   notes: {
     note: [String],
-    user_id: [mongoose.Schema.Types.ObjectId],
+    user_img_id: [mongoose.Schema.Types.ObjectId],
   },
   events: [String],
   expenses: [String],

@@ -14,14 +14,14 @@ router.post("/", auth, async (req, res) => {
 // UPDATE NOTES || ADD
 
 router.put("/", auth, async (req, res) => {
-  console.log("HEY" + req.body.id);
+  console.log(req.body);
   // Make Error Auth
   const note = await Household.findByIdAndUpdate(
     req.body.id,
     {
       $push: {
         "notes.note": req.body.note,
-        "notes.user_id": req.body.user_id,
+        "notes.user_img_id": req.body.img_id,
       },
     },
     {
