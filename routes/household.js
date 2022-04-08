@@ -15,6 +15,7 @@ router.get("/", auth, async (req, res) => {
 // GET SINGLE HUOSEHOLD BY ID
 
 router.post("/my/", auth, async (req, res) => {
+  console.log(req.body.id);
   const household = await Household.findById(req.body.id);
   console.log(household);
 

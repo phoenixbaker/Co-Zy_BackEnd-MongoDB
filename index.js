@@ -3,8 +3,10 @@ require("custom-env").env(".env");
 const mongoose = require("mongoose");
 const express = require("express");
 const helmet = require("helmet");
+const busboy = require("connect-busboy");
 
 // const conn = require("./database");
+const upload = require("./routes/upload");
 const users = require("./routes/users");
 const messages = require("./routes/messages");
 const auth = require("./routes/auth");
@@ -18,8 +20,10 @@ const app = express();
 app.use(express.static("public"));
 app.use(express.json());
 app.use(helmet());
-// app.use(busboy());
+app.use(busboy());
+// app.use(fileUpload());
 
+app.use("/api/img", upload);
 app.use("/api/my/notes", notes);
 app.use("/api/users", users);
 app.use("/api/messages", messages);
