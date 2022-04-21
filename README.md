@@ -1,6 +1,4 @@
-### Hi there! I'm Phoenix Baker
-
-## I'm a University Student studying Software Engineering and this is my personal project CoZy-Family
+## My name is Phoenix Baker and I am a University Student studying Software Engineering and this is my personal project CoZy-Family
 
 - 📖 I'm currently learning at Macquarie University
 - 🖥️ I'm looking for an entry level job as a programmer to get experience
