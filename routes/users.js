@@ -10,14 +10,14 @@ const auth = require("../middleware/auth");
 // GET SINGLE USER
 
 router.get("/me", auth, async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");
+  const user = await User.findById(req.user._id).select("-img", "-password");
   res.send(user);
 });
 
 // GET ALL USERS
 
 router.get("/", async (req, res) => {
-  const users = await User.find();
+  const users = await User.find().select(["-img", "-password"]);
   console.log("here");
   res.send(users);
 });

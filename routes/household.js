@@ -28,7 +28,6 @@ router.post("/my/", auth, async (req, res) => {
 // REGISTER A HOUSEHOLD
 
 router.post("/", auth, async (req, res) => {
-  console.log("here");
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -38,6 +37,8 @@ router.post("/", auth, async (req, res) => {
 
   household = new Household(req.body);
 
+  household.populate("users", ["_id", "name", "email", "location", "img"]);
+
   await User.findByIdAndUpdate(req.body.users, {
     $push: {
       households: household._id,
@@ -46,8 +47,6 @@ router.post("/", auth, async (req, res) => {
   });
 
   household = await household.save();
-
-  console.log(household);
   res.send(household);
 });
 

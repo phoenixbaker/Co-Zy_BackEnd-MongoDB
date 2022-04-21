@@ -4,6 +4,7 @@ const Joi = require("joi");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const { Household } = require("../models/household");
 const router = express.Router();
 
 // LOGIN AUTH
@@ -19,6 +20,9 @@ router.post("/", async (req, res) => {
   if (!validPassword) return res.status(400).send("Invalid email or password");
 
   const token = user.generateAuthToken();
+
+  const household = await Household.findById(user.households[0]);
+  console.log(user);
   res.header("x-auth-token", token).send(token);
 });
 
