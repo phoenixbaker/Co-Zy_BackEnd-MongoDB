@@ -23,8 +23,14 @@ const userSchema = new mongoose.Schema({
     ref: "Household",
   },
   households_name: Array,
-  longitude: String,
-  latitude: String,
+  location: {
+    longitude: String,
+    latitude: String,
+  },
+  verified: {
+    type: Boolean,
+    default: false,
+  },
   img: Buffer,
 });
 
@@ -32,13 +38,10 @@ userSchema.methods.generateAuthToken = function () {
   return (token = jwt.sign(
     {
       _id: this.id,
-      households: this.households,
       name: this.name,
       email: this.email,
+      households: this.households,
       households_name: this.households_name,
-      longitude: this.longitude,
-      latitude: this.latitude,
-      img_id: this.img_id,
     },
     "jwtPrivateKey"
   ));

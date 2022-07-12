@@ -5,16 +5,17 @@ const express = require("express");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
+// Change to get
 router.post("/", auth, async (req, res) => {
-  const location = await User.findById(req.body.id);
-  res.send(location);
+  const user = await User.findById(req.body.id);
+  res.send(user._id);
 });
 
 router.put("/", auth, async (req, res) => {
-  const location = await User.findByIdAndUpdate(req.body.id, req.body, {
+  const user = await User.findByIdAndUpdate(req.body.id, req.body, {
     new: true,
   });
-  res.send(location);
+  res.send(user._id);
 });
 
 router.put("/household", auth, async (req, res) => {

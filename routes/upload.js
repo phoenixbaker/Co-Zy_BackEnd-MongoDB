@@ -36,7 +36,6 @@ router.post("/upload", auth, upload.single("img"), async (req, res) => {
 
 router.get("/download", auth, async (req, res) => {
   const user = await User.findById(req.user._id);
-  //   console.log(user.img);
   res.send(JSON.stringify(user.img));
 });
 

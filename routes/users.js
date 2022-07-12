@@ -5,6 +5,19 @@ const router = express.Router();
 const { User, validate } = require("../models/users");
 const auth = require("../middleware/auth");
 
+const nodeMailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+
+const transporter = nodeMailer.createTransport({
+  service: "hotmail",
+  auth: {
+    user: "cozyfamilydemo123@outlook.com",
+    pass: "Disruckto2!",
+  },
+});
+// const sendEmail = require("../util/sendEmail");
+// const crypto = require("crypto");
+
 // ADD HUOSEHOLD AUTH
 
 // GET SINGLE USER
@@ -22,11 +35,54 @@ router.get("/", async (req, res) => {
   res.send(users);
 });
 
+router.post("/confirmation", async (req, res) => {
+  console.log(req.body);
+
+  const ip = "123.208.183.180:5000";
+
+  transporter.sendMail(
+    {
+      from: "cozyfamilydemo123@outlook.com",
+      to: req.body.email,
+      subject: "hi! cozy family account verification",
+      html:
+        '<p> Click <a href="http://' +
+        ip +
+        "/api/users/confirmation/" +
+        req.body.token +
+        '"> here </a> to verify account </p>',
+    },
+    (e, info) => {
+      if (e) return console.log("error", e);
+      console.log(info.messageId);
+      console.log("it worked!", info.response);
+    }
+  );
+  console.log("email confirmation sent");
+  res.send("email confirmation sent");
+});
+
+router.get("/confirmation/:token", async (req, res) => {
+  let token = jwt.decode(req.params.token, "jwtPrivateKey");
+  console.log(token);
+
+  const user = await User.findByIdAndUpdate(
+    token._id,
+    { verified: true },
+    { new: true }
+  );
+  console.log(user);
+
+  console.log("it worked!!! account verified");
+  res.send("it worked!!! account verified");
+});
+
 // REGISTER A USER
 
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   console.log(req.body);
+  console.log("Register A User: Request Body ^^");
   if (error) return res.status(400).send(error.details[0].message);
 
   let user = await User.findOne({ email: req.body.email });
@@ -40,6 +96,7 @@ router.post("/", async (req, res) => {
   console.log(user);
 
   const token = user.generateAuthToken();
+
   res.header("x-auth-token", token).send(token);
 });
 
