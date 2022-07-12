@@ -1,5 +1,15 @@
 require("custom-env").env(".env");
 
+// Make new backend
+
+// make more paths --- understand the uses of push/get
+
+// make better use of x-auth-token | watch mosh video
+
+// Use img upload solution from here
+
+// Make smarter push/get requests, with more small get requests to stop latency | asycnronous parallel requests
+
 const mongoose = require("mongoose");
 const express = require("express");
 const helmet = require("helmet");
